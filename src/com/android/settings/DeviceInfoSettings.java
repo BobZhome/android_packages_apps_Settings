@@ -78,12 +78,17 @@ public class DeviceInfoSettings extends PreferenceActivity {
         setStringSummary("firmware_version", Build.VERSION.RELEASE);
         findPreference("firmware_version").setEnabled(true);
         setValueSummary("baseband_version", "gsm.version.baseband");
+        findPreference("baseband_version").setEnabled(true);
         setStringSummary("device_model", Build.MODEL);
+        findPreference("device_model").setEnabled(true);
         setStringSummary("build_number", Build.DISPLAY);
         findPreference("kernel_version").setSummary(getFormattedKernelVersion());
+        findPreference("kernel_version").setEnabled(true);
         setValueSummary("mod_version", "ro.modversion");
         findPreference("mod_version").setEnabled(true);
-        
+        setValueSummary("build_id", "ro.build.version.incremental");
+        findPreference("build_id").setEnabled(true);
+
         // Remove Safety information preference if PROPERTY_URL_SAFETYLEGAL is not set
         removePreferenceIfPropertyMissing(getPreferenceScreen(), "safetylegal",
                 PROPERTY_URL_SAFETYLEGAL);
@@ -124,15 +129,34 @@ public class DeviceInfoSettings extends PreferenceActivity {
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (preference.getKey().equals("firmware_version")
-                || preference.getKey().equals("mod_version")) {
+                || preference.getKey().equals("mod_version")
+                || preference.getKey().equals("baseband_version")
+                || preference.getKey().equals("kernel_version")
+                || preference.getKey().equals("device_model")
+                || preference.getKey().equals("build_id")) {
             System.arraycopy(mHits, 1, mHits, 0, mHits.length-1);
             mHits[mHits.length-1] = SystemClock.uptimeMillis();
             if (mHits[0] >= (SystemClock.uptimeMillis()-500)) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.setClassName("android",
                         com.android.internal.app.PlatLogoActivity.class.getName());
-                if (preference.getKey().equals("mod_version")) {
-                    intent.putExtra("special", true);
+                if (preference.getKey().equals("device_model")) {
+                    intent.putExtra("special", "xmas");
+                }
+                if (preference.getKey().equals("firmware_version")) {
+                    intent.putExtra("special", "douche");
+                }
+                if (preference.getKey().equals("kernel_version")) {
+                    intent.putExtra("special", "bobz");
+                }
+                if (preference.getKey().equals("baseband_version")) {
+                    intent.putExtra("special", "cassini");
+                }
+                 if (preference.getKey().equals("mod_version")) {
+                    intent.putExtra("special", "zombie");
+                }
+                if (preference.getKey().equals("build_id")) {
+                    intent.putExtra("special", "blarf");
                 }
                 try {
                     startActivity(intent);

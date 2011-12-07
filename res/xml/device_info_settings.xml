@@ -147,6 +147,12 @@
                 android:title="@string/mod_version"
                 android:summary="@string/mod_version_default" />
 
+        <!-- Build ID -->
+        <Preference android:key="build_id"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/build_id"
+                android:summary="@string/build_id_default" />
+
         <!-- Detailed build version -->
         <Preference android:key="build_number"
                 style="?android:preferenceInformationStyle"
