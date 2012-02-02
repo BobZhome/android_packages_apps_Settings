@@ -907,7 +907,7 @@
 
     <!-- ADB -->
     <string name="enable_adb">Débogage Android</string>
-    <string name="enable_adb_summary">Mode débogage lorsqu\'uncâble USB est connecté</string>
+    <string name="enable_adb_summary">Mode débogage lorsqu\'un câble USB est connecté</string>
     <string name="adb_notify">Notification débogage</string>
     <string name="adb_over_network">ADB sur TCP/IP</string>
     <string name="adb_over_network_summary">"Activer le débogage sur toutes les interfaces réseau (Wifi, Usb net)"</string>

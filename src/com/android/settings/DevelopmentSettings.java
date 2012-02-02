@@ -76,10 +76,8 @@ public class DevelopmentSettings extends PreferenceActivity
 
         mEnableAdb.setChecked(Settings.Secure.getInt(getContentResolver(),
                 Settings.Secure.ADB_ENABLED, 0) != 0);
-        
         mAdbOverNetwork.setChecked(Settings.Secure.getInt(getContentResolver(),
                 Settings.Secure.ADB_PORT, 0) > 0);
-
         mAdbNotify.setChecked(Settings.Secure.getInt(getContentResolver(),
                 Settings.Secure.ADB_NOTIFY, 1) != 0);
 
@@ -155,18 +153,17 @@ public class DevelopmentSettings extends PreferenceActivity
     }
 
     public void onClick(DialogInterface dialog, int which) {
-        if (mCurrentDialog.equals(ENABLE_ADB)) {
-            if (which == DialogInterface.BUTTON_POSITIVE) {
-                mOkClicked = true;
+        if (which == DialogInterface.BUTTON_POSITIVE) {
+            mOkClicked = true;
+            if (mCurrentDialog.equals(ENABLE_ADB)) {
                 Settings.Secure.putInt(getContentResolver(), Settings.Secure.ADB_ENABLED, 1);
             } else {
-                mEnableAdb.setChecked(false);
-            }
-        }
-        else if (mCurrentDialog.equals(ADB_TCPIP)) {
-            if (which == DialogInterface.BUTTON_POSITIVE) {
-                mOkClicked = true;
                 Settings.Secure.putInt(getContentResolver(), Settings.Secure.ADB_PORT, 5555);
+            }
+        } else {
+            // Reset the toggle
+            if (mCurrentDialog.equals(ENABLE_ADB)) {
+                mEnableAdb.setChecked(false);
             } else {
                 mAdbOverNetwork.setChecked(false);
             }
@@ -178,8 +175,7 @@ public class DevelopmentSettings extends PreferenceActivity
         if (!mOkClicked) {
             if (mCurrentDialog.equals(ENABLE_ADB)) {
                 mEnableAdb.setChecked(false);
-            }
-            else if (mCurrentDialog.equals(ADB_TCPIP)) {
+            } else {
                 mAdbOverNetwork.setChecked(false);
             }
         }
