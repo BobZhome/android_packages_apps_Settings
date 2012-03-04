@@ -1305,7 +1305,9 @@
     <string name="mod_version_default">Unknown</string>
     <!-- About phone screen, build ID -->
     <string name="build_id">Build ID</string>
-    <string name="build_id_default">BACKside-InferiorHumanOrgans</string>
+    <string name="build_id_default">BobZhome</string>
+    <!-- About phone screen,  setting option name-->
+    <string name="build_date">Build date</string>
 
     <!-- About phone screen, show when a value of some status item is unavailable. -->
     <string name="device_info_not_available">Not available</string>
