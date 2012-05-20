@@ -77,7 +77,7 @@ public class DeviceInfoSettings extends PreferenceActivity {
         setStringSummary("device_memory", getMemAvail().toString()+" MB / "+getMemTotal().toString()+" MB");
         setStringSummary("firmware_version", Build.VERSION.RELEASE);
         findPreference("firmware_version").setEnabled(true);
-        setValueSummary("baseband_version", "gsm.version.baseband");
+        setStringSummary("baseband_version", getCDMAbaseband());
         findPreference("baseband_version").setEnabled(true);
         setStringSummary("device_model", Build.MODEL);
         findPreference("device_model").setEnabled(true);
@@ -309,6 +309,36 @@ public class DeviceInfoSettings extends PreferenceActivity {
 
       return info[1];
     }
+
+   private String getCDMAbaseband() {
+      String bband = null;
+      BufferedReader reader = null;
+
+      try {
+         // Grab a reader to /sys/devices/system/soc/soc0/build_id
+         reader = new BufferedReader(new InputStreamReader(new FileInputStream("/sys/devices/system/soc/soc0/build_id")), 1000);
+
+         // Grab the first line from build_id
+          String line = reader.readLine();
+
+         // Split on the colon, we need info to the right of colon
+         bband = line.trim();
+      }
+      catch(IOException io) {
+         io.printStackTrace();
+         // bband = new String[1];
+         bband = "error";
+      }
+      finally {
+         // Make sure the reader is closed no matter what
+         try { reader.close(); }
+         catch(Exception e) {}
+         reader = null;
+      }
+
+      return bband;
+    }
+
 
     private String getFormattedKernelVersion() {
         String procVersionStr;
