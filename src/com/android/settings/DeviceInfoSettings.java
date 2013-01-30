@@ -33,8 +33,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -312,6 +315,35 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment {
             reader.close();
         }
     }
+
+   private String getCDMAbaseband() {
+        String bband = null;
+        BufferedReader reader = null;
+
+        try {
+            // Grab a reader to /sys/devices/system/soc/soc0/build_id
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream("/sys/devices/system/soc/soc0/build_id")), 1000);
+
+            // Grab the first line from build_id
+             String line = reader.readLine();
+
+            // Split on the colon, we need info to the right of colon
+            bband = line.trim();
+        }
+        catch(IOException io) {
+            io.printStackTrace();
+            // bband = new String[1];
+            bband = "error";
+        }
+        finally {
+            // Make sure the reader is closed no matter what
+            try { reader.close(); }
+            catch(Exception e) {}
+            reader = null;
+        }
+
+        return bband;
+      }
 
     public static String getFormattedKernelVersion() {
         try {
